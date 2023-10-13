@@ -3,8 +3,8 @@ package com.recipe.recipearticle.Dto.Response;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
+import static com.recipe.recipearticle.Dto.Response.ResponseStatus.SUCCESS;
 @Getter
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "result"})
