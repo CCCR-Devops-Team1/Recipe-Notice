@@ -1,21 +1,33 @@
 package com.recipe.recipearticle;
 
+import com.recipe.recipearticle.Dto.ArticleDto;
+import com.recipe.recipearticle.Dto.MemberDto;
 import com.recipe.recipearticle.Dto.Response.ResponseDto;
+import com.recipe.recipearticle.Dto.Response.ResponseStatus;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.coyote.Response;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
 public class NoticeController {
     private final RestTemplateService restTemplateService;
-    @GetMapping("/getname")
-    public String getAccount(){
-        return restTemplateService.getName();
-    }
-    @PostMapping("/notice")
+    private final ArticleService articleService;
+    // read
+    @GetMapping("/notice")
     public ResponseDto createArticle(){
-        return null;
+//        articleService.create(articleDto);
+        return new ResponseDto(ResponseStatus.SUCCESS);
+    }
+    // create
+    @PostMapping("/notice")
+    public ResponseDto getAccount(HttpServletRequest request, Principal principal){
+        System.out.println("사용자 이름 : " + principal.getName());
+        return new ResponseDto(restTemplateService.getMemberId(request));
     }
 }
