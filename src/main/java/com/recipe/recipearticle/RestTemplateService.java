@@ -28,7 +28,7 @@ public class RestTemplateService {
   private String host;
   @Value("${recipe.member.port}")
   private int port;
-  public Object getMemberId(HttpServletRequest request) {
+  public MemberInfo getMemberId(HttpServletRequest request) {
     URI uri = UriComponentsBuilder
         .fromUriString(String.format("http://%s:%d", host,port))
         .path("/user")
