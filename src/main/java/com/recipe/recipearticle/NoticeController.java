@@ -22,12 +22,12 @@ public class NoticeController {
     private final RestTemplateService restTemplateService;
     private final ArticleService articleService;
     private final ArticleRepository articleRepository;
-    // read
+    // All Article Read
     @GetMapping("/notice")
     public ResponseDto getArticle(){
-        return new ResponseDto(articleRepository.findById(1L).get());
+        return new ResponseDto(articleRepository.findAll());
     }
-    // article create
+    // Article Create
     @PostMapping("/notice")
     public ResponseDto createArticle(HttpServletRequest request, Principal principal, @Valid @RequestBody ArticleDto articleDto, BindingResult bindingResult){
         System.out.println("사용자 이름 : " + principal.getName());
@@ -42,6 +42,7 @@ public class NoticeController {
             return new ResponseDto(ResponseStatus.NOTICE_CREATE_SUCCESS);
         }
     }
+    // Article Modify
     @PutMapping("/notice")
     public ResponseDto modifyArticle(HttpServletRequest request, Principal principal, @Valid @RequestBody ArticleDto articleDto, BindingResult bindingResult) {
         System.out.println("사용자 이름 : " + principal.getName());
@@ -56,5 +57,11 @@ public class NoticeController {
             return new ResponseDto(article);
         }
     }
-
+    // Article Delete
+    @DeleteMapping("/notice")
+    public ResponseDto deleteArticle(HttpServletRequest request, Principal principal, @RequestBody ArticleDto articleDto){
+        long member_id = restTemplateService.getMemberId(request).getResult().getId();
+        articleService.delete(articleDto.getId(), member_id);
+        return new ResponseDto(ResponseStatus.SUCCESS);
+    }
 }

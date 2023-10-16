@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleDto {
+  private long id;
   @NotBlank(message = "제목은 필수 입력 사항입니다.")
   private String subject;
   @NotBlank(message = "내용은 필수 입력 사항입니다.")
