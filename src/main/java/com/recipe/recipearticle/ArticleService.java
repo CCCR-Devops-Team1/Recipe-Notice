@@ -17,4 +17,13 @@ public class ArticleService {
         .build();
     articleRepository.save(article);
   }
+
+  public Article modify(ArticleDto articleDto, long member_id) {
+    Article article = articleRepository.findById(member_id).get();
+    article.setSubject(articleDto.getSubject());
+    article.setContent(articleDto.getContent());
+    articleRepository.save(article);
+
+    return article;
+  }
 }

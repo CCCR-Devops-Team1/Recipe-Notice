@@ -24,12 +24,12 @@ public class NoticeController {
     private final ArticleRepository articleRepository;
     // read
     @GetMapping("/notice")
-    public ResponseDto createArticle(){
+    public ResponseDto getArticle(){
         return new ResponseDto(articleRepository.findById(1L).get());
     }
     // article create
     @PostMapping("/notice")
-    public ResponseDto getAccount(HttpServletRequest request, Principal principal, @Valid ArticleDto articleDto, BindingResult bindingResult){
+    public ResponseDto createArticle(HttpServletRequest request, Principal principal, @Valid @RequestBody ArticleDto articleDto, BindingResult bindingResult){
         System.out.println("사용자 이름 : " + principal.getName());
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
 
@@ -39,7 +39,21 @@ public class NoticeController {
             return new ResponseDto(false, HttpStatus.BAD_REQUEST.value(), error_list);
         }else{
             articleService.create(articleDto, member_id);
-            return new ResponseDto(ResponseStatus.SIGNUP_SUCCESS);
+            return new ResponseDto(ResponseStatus.NOTICE_CREATE_SUCCESS);
+        }
+    }
+    @PutMapping("/notice")
+    public ResponseDto modifyArticle(HttpServletRequest request, Principal principal, @Valid @RequestBody ArticleDto articleDto, BindingResult bindingResult) {
+        System.out.println("사용자 이름 : " + principal.getName());
+        long member_id = restTemplateService.getMemberId(request).getResult().getId();
+
+        List<String> error_list = Validation.getValidationError(bindingResult);
+
+        if(!error_list.isEmpty()){
+            return new ResponseDto(false, HttpStatus.BAD_REQUEST.value(), error_list);
+        }else{
+            Article article = articleService.modify(articleDto, member_id);
+            return new ResponseDto(article);
         }
     }
 

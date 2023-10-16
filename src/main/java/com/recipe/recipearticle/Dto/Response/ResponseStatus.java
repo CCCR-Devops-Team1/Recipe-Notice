@@ -21,7 +21,9 @@ public enum ResponseStatus {
   REDIS_ERROR(false, HttpStatus.BAD_REQUEST.value(), "redis 연결에 실패했습니다."),
   NOT_EXIST_REFRESH_JWT(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않거나 만료된 Refresh토큰입니다. 다시 로그인 해주세요."),
   FAIL_JSON_PROCESS(false, HttpStatus.BAD_REQUEST.value(), "JSON 생성 실패"),
-  FAIL_JSON_MAPPING(false, HttpStatus.BAD_REQUEST.value(), "JSON 매핑 실패");
+  FAIL_JSON_MAPPING(false, HttpStatus.BAD_REQUEST.value(), "JSON 매핑 실패"),
+  NOTICE_CREATE_SUCCESS(true, HttpStatus.OK.value(), "게시글을 생성하였습니다."),
+  NOTICE_MODIFY_SUCCESS(true, HttpStatus.OK.value(), "게시글을 수정하였습니다.");
 
   private final boolean isSuccess;
   private final int code;
