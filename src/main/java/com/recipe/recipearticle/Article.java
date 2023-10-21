@@ -1,6 +1,7 @@
 package com.recipe.recipearticle;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -36,6 +37,7 @@ public class Article {
     @LastModifiedDate
     private LocalDateTime updateDate;
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Answer> answerList = new ArrayList<>();
     public void addAnswer(Answer answer){
         answer.setArticle(this);

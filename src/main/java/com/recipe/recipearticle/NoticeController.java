@@ -79,4 +79,15 @@ public class NoticeController {
         answerService.createAnswer(member_id, article_id, answerDto);
         return null;
     }
+    // Answer Update
+    @PutMapping("/notice/{article_id}")
+    public ResponseDto modifyAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id, @RequestBody AnswerDto answerDto){
+        long member_id = restTemplateService.getMemberId(request).getResult().getId();
+        System.out.println("member_id : "+member_id);
+        System.out.println("answer_id : " +answerDto.getId());
+        Answer answer = answerService.modify(answerDto, article_id, member_id);
+
+
+        return new ResponseDto(answer);
+    }
 }

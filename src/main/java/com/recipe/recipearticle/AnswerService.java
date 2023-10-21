@@ -5,8 +5,7 @@ import com.recipe.recipearticle.Exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.recipe.recipearticle.Dto.Response.ResponseStatus.NO_ARTICLE;
-import static com.recipe.recipearticle.Dto.Response.ResponseStatus.NO_DELETE_AUTHORITY;
+import static com.recipe.recipearticle.Dto.Response.ResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +24,18 @@ public class AnswerService {
     article.getAnswerList().add(answer);
     System.out.println(article.getAnswerList());
     articleRepository.save(article);
-    return ;
+  }
+
+  public Answer modify(AnswerDto answerDto, long article_id, long member_id) {
+    Answer answer = answerRepository.findByIdAndArticleId(answerDto.getId(), article_id).orElseThrow(
+        () -> new BaseException(NO_ANSWER)
+    );
+    if(answer.getMemberId() != member_id){
+      new BaseException(NO_UPDATE_AUTHORITY);
+    }
+    answer.setContent(answerDto.getContent());
+    answerRepository.save(answer);
+
+    return answer;
   }
 }

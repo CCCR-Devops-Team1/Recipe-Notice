@@ -1,5 +1,6 @@
 package com.recipe.recipearticle;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -32,5 +33,6 @@ public class Answer {
   @LastModifiedDate
   private LocalDateTime updateDate;
   @ManyToOne
+  @JsonBackReference
   private Article article;
 }

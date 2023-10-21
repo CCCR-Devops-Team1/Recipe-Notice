@@ -24,9 +24,10 @@ public enum ResponseStatus {
   FAIL_JSON_MAPPING(false, HttpStatus.BAD_REQUEST.value(), "JSON 매핑 실패"),
   NOTICE_CREATE_SUCCESS(true, HttpStatus.OK.value(), "게시글을 생성하였습니다."),
   NOTICE_MODIFY_SUCCESS(true, HttpStatus.OK.value(), "게시글을 수정하였습니다."),
-  NO_UPDATE_AUTHORITY(false,  HttpStatus.BAD_REQUEST.value(), "게시글 수정 권한이 없습니다."),
-  NO_DELETE_AUTHORITY(false,  HttpStatus.BAD_REQUEST.value(), "게시글 삭제 권한이 없습니다."),
-  NO_ARTICLE(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 게시글입니다.");
+  NO_UPDATE_AUTHORITY(false,  HttpStatus.BAD_REQUEST.value(), "수정 권한이 없습니다."),
+  NO_DELETE_AUTHORITY(false,  HttpStatus.BAD_REQUEST.value(), "삭제 권한이 없습니다."),
+  NO_ARTICLE(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 게시글입니다."),
+  NO_ANSWER(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 댓글입니다");
 
   private final boolean isSuccess;
   private final int code;
