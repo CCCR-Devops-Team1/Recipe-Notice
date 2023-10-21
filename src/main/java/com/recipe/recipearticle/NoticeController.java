@@ -76,7 +76,7 @@ public class NoticeController {
     @PostMapping("/notice/{article_id}")
     public ResponseDto createAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id, @RequestBody AnswerDto answerDto){
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
-        answerService.create(member_id, article_id, answerDto);
+        answerService.createAnswer(member_id, article_id, answerDto);
         return null;
     }
 }

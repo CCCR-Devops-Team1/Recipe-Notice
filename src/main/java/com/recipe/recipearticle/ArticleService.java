@@ -28,7 +28,9 @@ public class ArticleService {
   public Article getArticle(long article_id) {
     Article article = articleRepository.findById(article_id).orElseThrow(() ->
         new BaseException(NO_ARTICLE));
+    System.out.println(article.getAnswerList());
     List<Answer> answerList = answerRepository.findByArticleId(article.getId());
+    System.out.println(answerList);
     article.setAnswerList(answerList);
     return article;
   }
