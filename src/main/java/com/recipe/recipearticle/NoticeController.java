@@ -1,5 +1,6 @@
 package com.recipe.recipearticle;
 
+import com.recipe.recipearticle.Dto.AnswerDto;
 import com.recipe.recipearticle.Dto.ArticleDto;
 import com.recipe.recipearticle.Dto.MemberDto;
 import com.recipe.recipearticle.Dto.Response.ResponseDto;
@@ -22,10 +23,16 @@ public class NoticeController {
     private final RestTemplateService restTemplateService;
     private final ArticleService articleService;
     private final ArticleRepository articleRepository;
+    private final AnswerService answerService;
     // All Article Read
     @GetMapping("/notice")
-    public ResponseDto getArticle(){
+    public ResponseDto getArticles(){
         return new ResponseDto(articleRepository.findAll());
+    }
+    @GetMapping("/notice/{article_id}")
+    public ResponseDto getArticle(@PathVariable long article_id){
+        Article article = articleService.getArticle(article_id);
+        return new ResponseDto(article);
     }
     // Article Create
     @PostMapping("/notice")
@@ -63,5 +70,13 @@ public class NoticeController {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
         articleService.delete(articleDto.getId(), member_id);
         return new ResponseDto(ResponseStatus.SUCCESS);
+    }
+
+    // Answer Create
+    @PostMapping("/notice/{article_id}")
+    public ResponseDto createAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id, @RequestBody AnswerDto answerDto){
+        long member_id = restTemplateService.getMemberId(request).getResult().getId();
+        answerService.create(member_id, article_id, answerDto);
+        return null;
     }
 }

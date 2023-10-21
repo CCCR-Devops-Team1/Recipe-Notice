@@ -9,6 +9,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -30,4 +32,13 @@ public class Article {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime updateDate;
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<Answer> answerList = new ArrayList<>();
+    public void addAnswer(Answer answer){
+        answer.setArticle(this);
+        getAnswerList().add(answer);
+    }
+    public int answerCount(){
+        return this.answerList.size();
+    }
 }

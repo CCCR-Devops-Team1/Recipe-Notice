@@ -4,8 +4,10 @@ import com.recipe.recipearticle.Dto.ArticleDto;
 import com.recipe.recipearticle.Exception.BaseException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 import static com.recipe.recipearticle.Dto.Response.ResponseStatus.*;
 
@@ -13,6 +15,7 @@ import static com.recipe.recipearticle.Dto.Response.ResponseStatus.*;
 @RequiredArgsConstructor
 public class ArticleService {
   private final ArticleRepository articleRepository;
+  private final AnswerRepository answerRepository;
 
   public void create(ArticleDto articleDto, long memberId) {
     Article article = Article.builder()
@@ -21,6 +24,13 @@ public class ArticleService {
         .memberId(memberId)
         .build();
     articleRepository.save(article);
+  }
+  public Article getArticle(long article_id) {
+    Article article = articleRepository.findById(article_id).orElseThrow(() ->
+        new BaseException(NO_ARTICLE));
+    List<Answer> answerList = answerRepository.findByArticleId(article.getId());
+    article.setAnswerList(answerList);
+    return article;
   }
 
   public Article modify(ArticleDto articleDto, long member_id) {

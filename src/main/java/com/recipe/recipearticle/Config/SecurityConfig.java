@@ -29,6 +29,7 @@ public class SecurityConfig {
   public WebSecurityCustomizer webSecurityCustomizer(){
     return (web) -> {
       web.ignoring().requestMatchers(HttpMethod.GET,"/notice");
+      web.ignoring().requestMatchers(HttpMethod.GET,"/notice/**");
     };
   }
   @Bean
