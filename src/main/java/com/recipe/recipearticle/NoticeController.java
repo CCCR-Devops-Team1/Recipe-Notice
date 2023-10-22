@@ -92,9 +92,9 @@ public class NoticeController {
     }
     // Answer Delete
     @DeleteMapping("/notice/{article_id}")
-    public ResponseDto deleteAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id) {
+    public ResponseDto deleteAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id, @RequestBody AnswerDto answerDto) {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
-        answerService.deleteAnswer(member_id, article_id);
-        return null;
+        answerService.deleteAnswer(answerDto, member_id, article_id);
+        return new ResponseDto(ResponseStatus.SUCCESS);
     }
 }

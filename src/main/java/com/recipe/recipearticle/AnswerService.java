@@ -41,16 +41,13 @@ public class AnswerService {
     return answer;
   }
   @Transactional
-  public void deleteAnswer(long member_id, long article_id) {
-    Article article = articleRepository.findById(article_id).orElseThrow(() ->
-      new BaseException(NO_ARTICLE));
-
-    if(article.getMemberId() != member_id){
+  public void deleteAnswer(AnswerDto answerDto, long member_id, long article_id) {
+    Answer answer = answerRepository.findByIdAndArticleId(answerDto.getId(), article_id).orElseThrow(
+            () -> new BaseException(NO_ANSWER)
+        );
+    if(answer.getMemberId() != member_id){
       new BaseException(NO_DELETE_AUTHORITY);
     }
-    Answer answer = answerRepository.findByArticleIdAndMemberId(article_id, member_id).orElseThrow(() ->
-      new BaseException(NO_ANSWER));
     answerRepository.delete(answer);
-    answerRepository.save(answer);
   }
 }

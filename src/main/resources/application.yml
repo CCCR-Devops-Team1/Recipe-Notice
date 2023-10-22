@@ -43,7 +43,7 @@ spring:
       port: 6379
       password: 1234
 server:
-  port: 8080
+  port: 8082
 logging:
   file:
     name: recipe-member
@@ -58,7 +58,7 @@ jwt:
 recipe:
   member:
     host: recipe-member
-    port: 8080
+    port: 8081
 ---
 ---
 spring:
