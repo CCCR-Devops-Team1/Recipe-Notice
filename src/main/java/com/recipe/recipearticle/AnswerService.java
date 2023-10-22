@@ -4,6 +4,7 @@ import com.recipe.recipearticle.Dto.AnswerDto;
 import com.recipe.recipearticle.Exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.recipe.recipearticle.Dto.Response.ResponseStatus.*;
 
@@ -12,6 +13,7 @@ import static com.recipe.recipearticle.Dto.Response.ResponseStatus.*;
 public class AnswerService {
   private final AnswerRepository answerRepository;
   private final ArticleRepository articleRepository;
+  private final MemberRepository memberRepository;
   public void createAnswer(long memberId, long article_id, AnswerDto answerDto) {
     Article article = articleRepository.findById(article_id).orElseThrow( () ->
             new BaseException(NO_ARTICLE)
@@ -26,7 +28,7 @@ public class AnswerService {
     articleRepository.save(article);
   }
 
-  public Answer modify(AnswerDto answerDto, long article_id, long member_id) {
+  public Answer modifyAnswer(AnswerDto answerDto, long article_id, long member_id) {
     Answer answer = answerRepository.findByIdAndArticleId(answerDto.getId(), article_id).orElseThrow(
         () -> new BaseException(NO_ANSWER)
     );
@@ -37,5 +39,18 @@ public class AnswerService {
     answerRepository.save(answer);
 
     return answer;
+  }
+  @Transactional
+  public void deleteAnswer(long member_id, long article_id) {
+    Article article = articleRepository.findById(article_id).orElseThrow(() ->
+      new BaseException(NO_ARTICLE));
+
+    if(article.getMemberId() != member_id){
+      new BaseException(NO_DELETE_AUTHORITY);
+    }
+    Answer answer = answerRepository.findByArticleIdAndMemberId(article_id, member_id).orElseThrow(() ->
+      new BaseException(NO_ANSWER));
+    answerRepository.delete(answer);
+    answerRepository.save(answer);
   }
 }

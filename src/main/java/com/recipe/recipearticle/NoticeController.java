@@ -77,7 +77,7 @@ public class NoticeController {
     public ResponseDto createAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id, @RequestBody AnswerDto answerDto){
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
         answerService.createAnswer(member_id, article_id, answerDto);
-        return null;
+        return new ResponseDto(ResponseStatus.SUCCESS);
     }
     // Answer Update
     @PutMapping("/notice/{article_id}")
@@ -85,9 +85,16 @@ public class NoticeController {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
         System.out.println("member_id : "+member_id);
         System.out.println("answer_id : " +answerDto.getId());
-        Answer answer = answerService.modify(answerDto, article_id, member_id);
+        Answer answer = answerService.modifyAnswer(answerDto, article_id, member_id);
 
 
         return new ResponseDto(answer);
+    }
+    // Answer Delete
+    @DeleteMapping("/notice/{article_id}")
+    public ResponseDto deleteAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id) {
+        long member_id = restTemplateService.getMemberId(request).getResult().getId();
+        answerService.deleteAnswer(member_id, article_id);
+        return null;
     }
 }

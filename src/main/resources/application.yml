@@ -26,7 +26,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       dialect: org.hibernate.dialect.MariaDBDialect
     show-sql: true
     format_sql: true
@@ -39,7 +39,7 @@ spring:
       password: 1234
   data:
     redis:
-      host: recipe-redis.hzi5ss.clustercfg.apn2.cache.amazonaws.com
+      host: clustercfg.recipe-redis.hzi5ss.apn2.cache.amazonaws.com
       port: 6379
       password: 1234
 server:
@@ -55,6 +55,10 @@ jwt:
     access-expiration-time: 15000
     refresh-expiration-time: 600000
   secretKey: 123nu23n1u23h129312312312
+recipe:
+  member:
+    host: recipe-member
+    port: 8080
 ---
 ---
 spring:
@@ -70,8 +74,8 @@ spring:
     cache: false
   datasource:
     url: jdbc:mariadb://localhost:3306/cccr
-    username: jwy
-    password: 1234
+    username: root
+    password: wu0313127426
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
