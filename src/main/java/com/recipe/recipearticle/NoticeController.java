@@ -12,7 +12,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +47,7 @@ public class NoticeController {
     // Article Create
     @PostMapping("/notice")
     public ResponseDto createArticle(HttpServletRequest request, Principal principal,
-                                     @Valid @RequestBody ArticleDto articleDto, BindingResult bindingResult) {
+                                     @Valid @ModelAttribute ArticleDto articleDto, BindingResult bindingResult) {
         System.out.println("사용자 이름 : " + principal.getName());
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
 
@@ -65,12 +64,9 @@ public class NoticeController {
     // Article Modify
     @PutMapping("/notice")
     public ResponseDto modifyArticle(HttpServletRequest request, Principal principal,
-                                     @Valid @RequestBody ArticleDto articleDto, BindingResult bindingResult) {
-        System.out.println("사용자 이름 : " + principal.getName());
+                                     @Valid @ModelAttribute ArticleDto articleDto, BindingResult bindingResult) {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
-
         List<String> error_list = Validation.getValidationError(bindingResult);
-
         if (!error_list.isEmpty()) {
             return new ResponseDto(false, HttpStatus.BAD_REQUEST.value(), error_list);
         } else {
@@ -115,23 +111,6 @@ public class NoticeController {
                                     @RequestBody AnswerDto answerDto) {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
         answerService.deleteAnswer(answerDto, member_id, article_id);
-        return new ResponseDto(ResponseStatus.SUCCESS);
-    }
-
-    // 이미지테스트
-    @PostMapping(value = "/notice/test", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseDto test(HttpServletRequest request, @ModelAttribute ArticleDto articleDto) {
-        long member_id = restTemplateService.getMemberId(request).getResult().getId();
-        System.out.println(member_id);
-        System.out.println(articleDto.getContent());
-        System.out.println(articleDto.getPhotoList().get(0).getOriginalFilename());
-        return new ResponseDto(articleService.create(articleDto, member_id));
-    }
-    
-    @GetMapping(value = "/notice/test2/{article_id}")
-    public ResponseDto test2(HttpServletRequest request, @PathVariable long article_id) {
-        long member_id = restTemplateService.getMemberId(request).getResult().getId();
-        Article article = articleService.getArticle2(article_id);
         return new ResponseDto(ResponseStatus.SUCCESS);
     }
 

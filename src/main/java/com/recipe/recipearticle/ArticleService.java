@@ -56,22 +56,17 @@ public class ArticleService {
         return article;
     }
 
-    public Article getArticle2(long article_id) {
-        Article article = articleRepository.findById(article_id).orElseThrow(() ->
-                new BaseException(NO_ARTICLE));
-        System.out.println(article.getAnswerList());
-        List<Answer> answerList = answerRepository.findByArticleId(article.getId());
-        article.setAnswerList(answerList);
-        List<Photo> photoList = photoRepository.findByArticleId(article.getId());
-        article.setPhotoList(photoList);
-        return article;
-    }
-
     public Article modify(ArticleDto articleDto, long member_id) {
         System.out.println(articleDto.getId() + " / " + member_id);
         Article article = articleRepository.findByIdAndMemberId(articleDto.getId(), member_id).orElseThrow(
                 () -> new BaseException(NO_UPDATE_AUTHORITY)
         );
+        if (!(articleDto.getPhotoList() == null)) {
+            List<Photo> photoList = articleDto.getPhotoList().stream().map(i -> new Photo(i.getOriginalFilename()))
+                    .collect(Collectors.toList());
+
+        }
+
         article.setSubject(articleDto.getSubject());
         article.setContent(articleDto.getContent());
         articleRepository.save(article);
