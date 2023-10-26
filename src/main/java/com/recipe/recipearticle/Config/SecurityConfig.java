@@ -24,31 +24,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-  private final JwtTokenProvider jwtTokenProvider;
-  @Bean
-  public WebSecurityCustomizer webSecurityCustomizer(){
-    return (web) -> {
-      web.ignoring().requestMatchers(HttpMethod.GET,"/notice");
-      web.ignoring().requestMatchers(HttpMethod.GET,"/notice/**");
-    };
-  }
-  @Bean
-  SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-    return http
-        .csrf(c -> c.disable())
-        .formLogin( f -> f.disable())
-        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .httpBasic( h -> h.disable())
-        .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(new JwtExceptionFilter(), JwtTokenFilter.class)
-        .build();
-  }
-  @Bean
-  public AuthenticationManager authenticationmanager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
-    return authenticationConfiguration.getAuthenticationManager();
-  }
-  @Bean
-  PasswordEncoder passwordEncoder(){
-    return new BCryptPasswordEncoder();
-  }
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> {
+            web.ignoring().requestMatchers(HttpMethod.GET, "/notice");
+            web.ignoring().requestMatchers(HttpMethod.GET, "/notice/**");
+            web.ignoring().requestMatchers(HttpMethod.POST, "/notice/test");
+            web.ignoring().requestMatchers(HttpMethod.POST, "/notice/test2/**");
+            web.ignoring().requestMatchers(HttpMethod.POST, "/notice/images/**");
+        };
+    }
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(c -> c.disable())
+                .formLogin(f -> f.disable())
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(h -> h.disable())
+                .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtTokenFilter.class)
+                .build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationmanager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

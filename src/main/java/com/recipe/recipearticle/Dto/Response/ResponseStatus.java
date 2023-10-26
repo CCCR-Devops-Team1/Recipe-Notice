@@ -27,7 +27,9 @@ public enum ResponseStatus {
   NO_UPDATE_AUTHORITY(false,  HttpStatus.BAD_REQUEST.value(), "수정 권한이 없습니다."),
   NO_DELETE_AUTHORITY(false,  HttpStatus.BAD_REQUEST.value(), "삭제 권한이 없습니다."),
   NO_ARTICLE(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 게시글입니다."),
-  NO_ANSWER(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 댓글입니다");
+  NO_ANSWER(false, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 댓글입니다"),
+  IMAGE_UPLOAD_FAIL(false, HttpStatus.BAD_REQUEST.value(), "이미지 업로드에 실패하였습니다."),
+  UNSUPPORT_IMAGE(false, HttpStatus.BAD_REQUEST.value(), "지원하지 않는 이미지 파일입니다.");
 
   private final boolean isSuccess;
   private final int code;
