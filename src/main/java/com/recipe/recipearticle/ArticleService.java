@@ -84,6 +84,8 @@ public class ArticleService {
         Article article = articleRepository.findByIdAndMemberId(id, memberId).orElseThrow(
                 () -> new BaseException(NO_DELETE_AUTHORITY)
         );
+        List<Photo> photoList = photoRepository.findByArticleId(article.getId());
+        photoList.stream().forEach(i -> fileService.delete(i.getUniqueName()));
         articleRepository.delete(article);
     }
 

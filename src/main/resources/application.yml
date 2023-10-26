@@ -121,4 +121,4 @@ recipe:
     port: 8081
 upload:
   image:
-    location: /Users/wooyong/images
+    location: /Users/wooyong/images/
