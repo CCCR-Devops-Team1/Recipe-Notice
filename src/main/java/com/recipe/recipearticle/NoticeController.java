@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -34,8 +36,10 @@ public class NoticeController {
 
     // All Article Read
     @GetMapping("/notice")
-    public ResponseDto getArticles() {
-        return new ResponseDto(articleRepository.findAll());
+    public ResponseDto getArticles(Optional<Integer> pageNum) {
+        System.out.println(pageNum);
+        Page<Article> articles = articleService.findAll(pageNum.isPresent() ? pageNum.get() - 1 : 0);
+        return new ResponseDto(articles.getContent());
     }
 
     @GetMapping("/notice/{article_id}")

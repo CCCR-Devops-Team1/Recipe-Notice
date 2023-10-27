@@ -7,10 +7,14 @@ import static com.recipe.recipearticle.Dto.Response.ResponseStatus.NO_UPDATE_AUT
 import com.recipe.recipearticle.Dto.ArticleDto;
 import com.recipe.recipearticle.Exception.BaseException;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +29,14 @@ public class ArticleService {
     private void uploadImages(List<Photo> photoList, List<MultipartFile> fileImages) {
         IntStream.range(0, photoList.size())
                 .forEach(i -> fileService.upload(fileImages.get(i), photoList.get(i).getUniqueName()));
+    }
+
+    public Page<Article> findAll(Integer current_page) {
+        List<Sort.Order> sort = new ArrayList<>();
+        sort.add(Sort.Order.desc("createDate"));
+        sort.add(Sort.Order.desc("id"));
+        Page<Article> articles = articleRepository.findAll(PageRequest.of(current_page, 10, Sort.by(sort)));
+        return articles;
     }
 
     @Transactional
@@ -94,6 +106,4 @@ public class ArticleService {
         photoList.stream().forEach(i -> fileService.delete(i.getUniqueName()));
         articleRepository.delete(article);
     }
-
-
 }
