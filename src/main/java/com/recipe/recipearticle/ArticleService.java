@@ -30,7 +30,7 @@ public class ArticleService {
     @Transactional
     public Article create(ArticleDto articleDto, long memberId) {
         Article article = null;
-        if (!(articleDto.getPhotoList() == null)) {
+        if (articleDto.getPhotoList() != null) {
             List<Photo> photoList = articleDto.getPhotoList().stream().map(i -> new Photo(i.getOriginalFilename()))
                     .collect(Collectors.toList());
             article = new Article(articleDto.getSubject(), articleDto.getContent(), memberId, photoList);
@@ -61,10 +61,21 @@ public class ArticleService {
         Article article = articleRepository.findByIdAndMemberId(articleDto.getId(), member_id).orElseThrow(
                 () -> new BaseException(NO_UPDATE_AUTHORITY)
         );
-        if (!(articleDto.getPhotoList() == null)) {
+        if (articleDto.getPhotoList() != null) {
+            // 변경할 이미지 리스트
             List<Photo> photoList = articleDto.getPhotoList().stream().map(i -> new Photo(i.getOriginalFilename()))
                     .collect(Collectors.toList());
-
+            // 기존의 이미지 리스트
+            List<Photo> originPhotoList = photoRepository.findByArticleId(article.getId());
+            // 기존의 이미지 로컬에서 삭제
+            originPhotoList.stream().forEach(i -> fileService.delete(i.getUniqueName()));
+            // 기존의 이미지 DB에서 삭제
+            originPhotoList.stream().forEach(i -> photoRepository.delete(i));
+            // 변경할 이미지들의 many to one 설정
+            photoList.stream().forEach(e -> e.setArticle(article));
+            // 게시글의 one to many 설정
+            article.setPhotoList(photoList);
+            uploadImages(article.getPhotoList(), articleDto.getPhotoList());
         }
 
         article.setSubject(articleDto.getSubject());

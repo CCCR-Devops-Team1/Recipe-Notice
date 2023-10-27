@@ -63,7 +63,7 @@ public class Photo {
         return this.getId() == id;
     }
 
-    public void initBoard(final Article article) {
+    public void initArticle(final Article article) {
         if (this.article == null) {
             this.article = article;
         }

@@ -45,8 +45,6 @@ public class Article {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime updateDate;
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Photo> photoList = new ArrayList<>();
 
     public Article(final String subject,
                    final String content,
@@ -59,10 +57,13 @@ public class Article {
         addPhotos(photos);
     }
 
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<Photo> photoList = new ArrayList<>();
+
     private void addPhotos(final List<Photo> addedPhotos) {
         addedPhotos.forEach(addedPhoto -> {
-            photoList.add(addedPhoto);
-            addedPhoto.initBoard(this);
+            addedPhoto.initArticle(this);
+            getPhotoList().add(addedPhoto);
         });
     }
 
