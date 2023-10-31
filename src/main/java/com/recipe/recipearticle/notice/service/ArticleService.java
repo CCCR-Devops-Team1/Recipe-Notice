@@ -49,6 +49,7 @@ public class ArticleService {
     public Article create(ArticleDto articleDto, long memberId) {
         Article article = null;
         if (articleDto.getPhotoList() != null) {
+            System.out.println("실행");
             List<Photo> photoList = articleDto.getPhotoList().stream().map(i -> new Photo(i.getOriginalFilename()))
                     .collect(Collectors.toList());
             article = new Article(articleDto.getSubject(), articleDto.getContent(), memberId, photoList);

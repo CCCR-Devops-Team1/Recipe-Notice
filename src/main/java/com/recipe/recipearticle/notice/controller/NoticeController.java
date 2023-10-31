@@ -8,7 +8,6 @@ import com.recipe.recipearticle.notice.dto.AnswerDto;
 import com.recipe.recipearticle.notice.dto.ArticleDto;
 import com.recipe.recipearticle.notice.entity.Answer;
 import com.recipe.recipearticle.notice.entity.Article;
-import com.recipe.recipearticle.notice.repository.ArticleRepository;
 import com.recipe.recipearticle.notice.service.AnswerService;
 import com.recipe.recipearticle.notice.service.ArticleService;
 import com.recipe.recipearticle.notice.service.FileService;
@@ -39,7 +38,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class NoticeController {
     private final RestTemplateService restTemplateService;
     private final ArticleService articleService;
-    private final ArticleRepository articleRepository;
     private final AnswerService answerService;
     private final FileService fileService;
 
@@ -65,10 +63,11 @@ public class NoticeController {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
 
         List<String> error_list = Validation.getValidationError(bindingResult);
-
         if (!error_list.isEmpty()) {
+            System.out.println("false");
             return new ResponseDto(false, HttpStatus.BAD_REQUEST.value(), error_list);
         } else {
+            System.out.println("execute");
             articleService.create(articleDto, member_id);
             return new ResponseDto(ResponseStatus.NOTICE_CREATE_SUCCESS);
         }
