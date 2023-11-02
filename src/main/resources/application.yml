@@ -57,7 +57,7 @@ jwt:
   secretKey: 123nu23n1u23h129312312312
 recipe:
   member:
-    host: www.recipetips.net/member
+    host: recipetips.net/member
     port: 8081
 upload:
   image:
