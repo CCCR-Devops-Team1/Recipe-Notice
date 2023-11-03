@@ -45,8 +45,6 @@ spring:
 server:
   port: 8082
 logging:
-  file:
-    name: recipe-member
   level:
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE
