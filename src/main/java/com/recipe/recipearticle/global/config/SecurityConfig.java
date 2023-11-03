@@ -30,6 +30,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> {
+            web.ignoring().requestMatchers(HttpMethod.GET, "/");
             web.ignoring().requestMatchers(HttpMethod.GET, "/notice");
             web.ignoring().requestMatchers(HttpMethod.GET, "/notice/**");
             web.ignoring().requestMatchers(HttpMethod.POST, "/notice/test");
