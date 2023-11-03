@@ -25,11 +25,11 @@ public class RestTemplateService {
     @Value("${recipe.member.host}")
     private String host;
     @Value("${recipe.member.port}")
-    private int port;
+    private String port;
 
     public MemberInfo getMemberId(HttpServletRequest request) {
         URI uri = UriComponentsBuilder
-                .fromUriString(String.format("%s:%d", host, port))
+                .fromUriString(String.format("%s:%s", host, port))
                 .path("/user")
                 .encode()
                 .build()
