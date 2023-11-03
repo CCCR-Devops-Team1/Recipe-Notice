@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -58,6 +59,7 @@ public class Article {
     }
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @Default
     private List<Photo> photoList = new ArrayList<>();
 
     private void addPhotos(final List<Photo> addedPhotos) {
@@ -69,6 +71,7 @@ public class Article {
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @Default
     private List<Answer> answerList = new ArrayList<>();
 
     public void addAnswer(Answer answer) {
