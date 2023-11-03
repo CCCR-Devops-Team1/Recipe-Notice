@@ -60,7 +60,7 @@ recipe:
     port: 8081
 upload:
   image:
-    location: /app/recipe/images
+    location: /app/images/
 ---
 ---
 spring:
