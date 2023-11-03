@@ -29,7 +29,7 @@ public class RestTemplateService {
 
     public MemberInfo getMemberId(HttpServletRequest request) {
         URI uri = UriComponentsBuilder
-                .fromUriString(String.format("http://%s:%d", host, port))
+                .fromUriString(String.format("%s:%d", host, port))
                 .path("/user")
                 .encode()
                 .build()
