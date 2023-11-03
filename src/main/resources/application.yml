@@ -48,6 +48,7 @@ logging:
   level:
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE
+    root: info
 jwt:
   token:
     access-expiration-time: 15000
@@ -55,7 +56,7 @@ jwt:
   secretKey: 123nu23n1u23h129312312312
 recipe:
   member:
-    host: recipetips.net/member
+    host: http://recipe-member
     port: 8081
 upload:
   image:
