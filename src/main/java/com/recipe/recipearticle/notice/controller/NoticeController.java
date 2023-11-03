@@ -42,21 +42,21 @@ public class NoticeController {
     private final FileService fileService;
 
     // All Article Read
-    @GetMapping("/notices")
+    @GetMapping("/notice")
     public ResponseDto getArticles(Optional<Integer> pageNum) {
         System.out.println(pageNum);
         Page<Article> articles = articleService.findAll(pageNum.isPresent() ? pageNum.get() - 1 : 0);
         return new ResponseDto(articles.getContent());
     }
 
-    @GetMapping("/notices/{article_id}")
+    @GetMapping("/notice/{article_id}")
     public ResponseDto getArticle(@PathVariable long article_id) {
         Article article = articleService.getArticle(article_id);
         return new ResponseDto(article);
     }
 
     // Article Create
-    @PostMapping("/notices")
+    @PostMapping("/notice")
     public ResponseDto createArticle(HttpServletRequest request, Principal principal,
                                      @Valid @ModelAttribute ArticleDto articleDto, BindingResult bindingResult) {
         System.out.println("사용자 이름 : " + principal.getName());
@@ -74,7 +74,7 @@ public class NoticeController {
     }
 
     // Article Modify
-    @PutMapping("/notices")
+    @PutMapping("/notice")
     public ResponseDto modifyArticle(HttpServletRequest request, Principal principal,
                                      @Valid @ModelAttribute ArticleDto articleDto, BindingResult bindingResult) {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
@@ -88,7 +88,7 @@ public class NoticeController {
     }
 
     // Article Delete
-    @DeleteMapping("/notices")
+    @DeleteMapping("/notice")
     public ResponseDto deleteArticle(HttpServletRequest request, Principal principal,
                                      @RequestBody ArticleDto articleDto) {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
@@ -97,7 +97,7 @@ public class NoticeController {
     }
 
     // Answer Create
-    @PostMapping("/notices/{article_id}")
+    @PostMapping("/notice/{article_id}")
     public ResponseDto createAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id,
                                     @RequestBody AnswerDto answerDto) {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
@@ -106,7 +106,7 @@ public class NoticeController {
     }
 
     // Answer Update
-    @PutMapping("/notices/{article_id}")
+    @PutMapping("/notice/{article_id}")
     public ResponseDto modifyAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id,
                                     @RequestBody AnswerDto answerDto) {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
@@ -118,7 +118,7 @@ public class NoticeController {
     }
 
     // Answer Delete
-    @DeleteMapping("/notices/{article_id}")
+    @DeleteMapping("/notice/{article_id}")
     public ResponseDto deleteAnswer(HttpServletRequest request, Principal principal, @PathVariable long article_id,
                                     @RequestBody AnswerDto answerDto) {
         long member_id = restTemplateService.getMemberId(request).getResult().getId();
@@ -127,7 +127,7 @@ public class NoticeController {
     }
 
     // 이미지 불러오기
-    @GetMapping("/notices/images/{image_name}")
+    @GetMapping("/notice/images/{image_name}")
     public ResponseEntity<Resource> getImage(@PathVariable String image_name) {
         return fileService.read(image_name);
     }
